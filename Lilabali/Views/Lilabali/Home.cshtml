@@ -1,0 +1,49 @@
+﻿@model IEnumerable < Lilabali.Models.Member>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-3"><b>Members</b></div>
+    <div class="col-sm-3" style="text-align:right;"> <a class="btn btn-sm btn-primary">Add</a></div>
+   
+    <div class="col-sm-6" style="text-align:right;">
+        <input type="text" class="form-control-sm" placeholder="Search Member" />
+    </div>
+</div>
+<hr />
+<table class="table table-responsive-sm table-striped">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Team</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    @if (Model!=null) 
+    {
+        <tbody>
+        @foreach (var item in Model)
+              {
+              <tr>
+                  <td>@item.MID</td>
+                   <td>@item.M_Name</td>
+                   <td>@item.TID</td>
+                   <td>@item.IsActive</td>
+             </tr>
+
+            }
+        </tbody> 
+    }
+            else
+            {
+        <tbody>
+            <tr>
+                <td colspan="4">No Member Found</td>
+            </tr>
+
+        </tbody>
+
+    }
+</table>
