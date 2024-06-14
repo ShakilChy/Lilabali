@@ -19,7 +19,7 @@
                         <h5>Lialabali</h5>
                     </div>
                     <div class="col-sm-9" style="text-align:right;">
-                        <a class="btn btn-sm btn-dark" href="@Url.Action("Home","Lilabali")"></a>
+                        <a class="btn btn-sm btn-dark" href="@Url.Action("Home","Lilabali")">Members</a>
                         <a class="btn btn-sm btn-dark" href="@Url.Action("Teams","Lilabali")">Teams</a>
                         <a class="btn btn-sm btn-dark">Payments</a>
                     </div>
@@ -30,7 +30,30 @@
             </div>
         </div>
     </div>
+    <script>
+             $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".filter").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
 
+           
+           
+           
+            //var message = $(".msg").val();
+            //if (message !== "") {
+            //    Swal.fire({
+            //        position: "center",
+            //        icon: "info",
+            //        title: message,
+            //        showConfirmButton: false,
+            //        timer: 1500
+            //    });
+            //}
+        });
+    </script>
 
 
     @Scripts.Render("~/bundles/jquery")
