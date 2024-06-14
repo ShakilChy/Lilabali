@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Lilabali.Models.Team>
+
+@{
+    ViewBag.Title = "Teams";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-3"><b>Teams</b></div>
+    <div class="col-sm-3" style="text-align:left;"> <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#TeamModal">Add Member</a></div>
+
+    <div class="col-sm-6" style="text-align:right;">
+        <input type="text" class="form-control-sm" placeholder="Search Team" />
+    </div>
+</div>
+<hr />
+<table class="table table-responsive-sm table-striped">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Team</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TID</td>
+                    <td>@item.TeamName</td>
+                    <td>
+                        @if (item.IsActive > 0)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {<span>Inactive</span>}
+                </td>
+            </tr>
+
+        }
+        </tbody>
+
+    }
+    else
+    {
+        <tbody>
+            <tr>
+                <td colspan="3" style="text-align:center">No Team Found</td>
+            </tr>
+
+        </tbody>
+
+    }
+</table>
+@using (Html.BeginForm("AddTeam", "Lilabali", FormMethod.Post))
+
+{
+
+
+    <div class="modal fade" id="TeamModal" tabindex="-1" aria-labelledby="TeamModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-light">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Team</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Team Name</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" placeholder="Enter Team Name" name="TeamName" required />
+                        </div>
+                    </div>
+                    
+                   
+                        
+                            <input type="hidden" name="IsActive" value="1" />
+                        
+                       
+                   
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                    <button type="submit" class="btn btn-sm btn-outline-dark">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
