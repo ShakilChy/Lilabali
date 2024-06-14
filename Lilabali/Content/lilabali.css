@@ -1,9 +1,9 @@
 ﻿body {
-   /* background-image: url('/images/images.png') !important;*/
-   background-color:lightslategrey !important;
+    background-image: url('/images/wp.jpg') !important;
+   /*background-color:lightslategrey !important;*/
     height: 100%;
     /* Center and scale the image nicely */
-    background-position: center;
+    
     background-repeat: no-repeat;
     background-size: cover;
 }

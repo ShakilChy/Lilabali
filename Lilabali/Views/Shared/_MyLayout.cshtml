@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Lilabali</title>
     <link href="~/Content/lilabali.css" rel="stylesheet" />
-    
-    
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -30,30 +31,21 @@
             </div>
         </div>
     </div>
-    <script>
-             $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $(".filter").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $(".mytbl").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
                 });
             });
+        </script>
 
-           
-           
-           
-            //var message = $(".msg").val();
-            //if (message !== "") {
-            //    Swal.fire({
-            //        position: "center",
-            //        icon: "info",
-            //        title: message,
-            //        showConfirmButton: false,
-            //        timer: 1500
-            //    });
-            //}
-        });
-    </script>
+    }
+
+
 
 
     @Scripts.Render("~/bundles/jquery")
