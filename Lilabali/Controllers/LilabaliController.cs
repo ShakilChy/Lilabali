@@ -52,7 +52,9 @@ namespace Lilabali.Controllers
                 tms.IsActive = 1;
                 lbc.Teams.Add(tms);
                 lbc.SaveChanges();
+
             }
+
             return RedirectToAction("Teams");
         }
     }
