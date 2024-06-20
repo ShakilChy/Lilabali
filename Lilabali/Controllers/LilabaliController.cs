@@ -30,11 +30,18 @@ namespace Lilabali.Controllers
         [HttpPost]//Members will be added through this method
         public ActionResult AddMember(Member M)
         {
+            string msg;
             if (M.TID > 0)
             {
                 lbc.Members.Add(M);
                 lbc.SaveChanges();
+                msg = "Saved Successfully";
             }
+            else
+            {
+                msg = "Not Saved";
+            }
+            TempData["message"] = msg;
             return RedirectToAction("Home");
         }
         public ActionResult Teams()
@@ -46,16 +53,26 @@ namespace Lilabali.Controllers
         public ActionResult AddTeam(string Tname)
         {
             Team tms = new Team();
+            string msg;
             if (!string.IsNullOrEmpty(Tname))
             {
                 tms.TeamName = Tname;
                 tms.IsActive = 1;
                 lbc.Teams.Add(tms);
                 lbc.SaveChanges();
-
+                msg = "Saved Successfully";
             }
-
+            else
+            {
+                msg = "Not Saved";
+            }
+            TempData["message"] = msg;
             return RedirectToAction("Teams");
+        }
+
+        public ActionResult Payment()
+        {
+            return View();
         }
     }
 }

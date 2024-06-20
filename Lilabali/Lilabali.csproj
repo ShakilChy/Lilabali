@@ -286,6 +286,7 @@
     <Content Include="Views\Shared\_MyLayout.cshtml" />
     <Content Include="Views\Lilabali\Home.cshtml" />
     <Content Include="Views\Lilabali\Teams.cshtml" />
+    <Content Include="Views\Lilabali\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
