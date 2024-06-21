@@ -17,12 +17,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h5>Lialabali</h5>
+                        <h5>Lilabali</h5>
                     </div>
                     <div class="col-sm-9" style="text-align:right;">
                         <a class="btn btn-sm btn-dark" href="@Url.Action("Home","Lilabali")">Members</a>
                         <a class="btn btn-sm btn-dark" href="@Url.Action("Teams","Lilabali")">Teams</a>
-                        <a class="btn btn-sm btn-dark">Payments</a>
+                        <a class="btn btn-sm btn-dark" href="@Url.Action("Payment","Lilabali")">Payments</a>
                     </div>
                 </div>
             </div>
@@ -31,19 +31,7 @@
             </div>
         </div>
     </div>
-    @section scripts{
-        <script>
-            $(document).ready(function () {
-                $("#myInput").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $(".mytbl").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-            });
-        </script>
-
-    }
+ 
 
 
 

@@ -15,6 +15,7 @@ namespace Lilabali.Models
         public virtual DbSet<datewisePayment> datewisePayments { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
+       
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

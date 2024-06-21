@@ -1,5 +1,6 @@
 ﻿using Lilabali.Models;
 using Lilabali.Repo;
+using Lilabali.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Lilabali.Controllers
         public LilabaliDbContext lbc = new LilabaliDbContext();
         public ActionResult Home()
         {
-            var member = lbc.Members.ToList();
+            var member = lbc.Database.SqlQuery<MembersView>("SELECT * FROM MembersView").ToList();
             DropDownRepo ddr = new DropDownRepo();
             var team = lbc.Teams.ToList();
             if (team.Count > 0)
@@ -72,7 +73,58 @@ namespace Lilabali.Controllers
 
         public ActionResult Payment()
         {
+            DropDownRepo ddr = new DropDownRepo();
+            ViewBag.EligibleMembers = ddr.GetEligibleMembers();
             return View();
+        }
+        [HttpPost]
+        public ActionResult CreateBill(PaymentVM pvm)
+        {
+            string msg;
+            DateTime date = DateTime.Now.Date;
+            datewisePayment dt = new datewisePayment();
+            if(pvm.SelectedMembers.Count>0|| pvm.SelectedMembers != null)
+            {
+                foreach (var item in pvm.SelectedMembers)
+                {
+                    dt.P_Date = date;
+                    dt.HostID = pvm.Host;
+                    dt.MID = Convert.ToInt32(item);
+                    dt.Amount = pvm.Amount / pvm.SelectedMembers.Count();
+                    dt.P_Status = 0;
+                    lbc.datewisePayments.Add(dt);
+                    lbc.SaveChanges();
+                }
+                msg = "Bill has been Created Successfully";
+            }
+            else
+            {
+                msg = "Something Went Wrong";
+            }
+            TempData["message"] = msg;
+            return RedirectToAction("Payment");
+        }
+
+        //This portion is used for Ajax Call to select HOST
+        [HttpGet]
+        public JsonResult GetMembers(string[] selectedValues)
+        {
+            if (selectedValues!=null) {
+                var members = lbc.Members
+                   .Where(m => selectedValues.Contains(m.MID.ToString()))
+                   .Select(m => new
+                   {
+                       Value = m.MID.ToString(),
+                       Text = m.M_Name
+                   }).ToList();
+                return Json(members, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
+
+            
         }
     }
 }

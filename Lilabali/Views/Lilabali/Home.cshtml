@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Lilabali.Models.Member>
+﻿@model IEnumerable<Lilabali.ViewModels.MembersView>
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_MyLayout.cshtml";
@@ -12,13 +12,13 @@
     </div>
 </div>
 <hr />
-<table class="table table-responsive-sm table-striped filter">
+<table class="table table-sm table-striped filter">
     <thead>
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Team</td>
-            <td>Status</td>
+        <tr class="bg-dark text-light" style="text-align:center;">
+            
+            <td><strong>Name</strong></td>
+            <td><strong>Team</strong></td>
+            <td><strong>Status</strong></td>
         </tr>
     </thead>
     @if (Model != null)
@@ -26,10 +26,10 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="mytbl">
-                    <td>@Html.DisplayFor(modelItem => item.MID)</td>
+                <tr class="mytbl" style="text-align:center;">
+                    
                     <td>@Html.DisplayFor(modelItem => item.M_Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TeamName)</td>
                     <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                 </tr>
 
@@ -41,14 +41,14 @@
     {
         <tbody>
             <tr>
-                <td colspan="4" style="text-align:center">No Member Found</td>
+                <td colspan="3" style="text-align:center">No Member Found</td>
             </tr>
 
         </tbody>
 
     }
 </table>
-@{ 
+@{
     var tms = ViewBag.Teams;
 }
 <!-- Button trigger modal -->
@@ -56,9 +56,7 @@
 @using (Html.BeginForm("AddMember", "Lilabali", FormMethod.Post))
 
 {
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-dark text-light">
@@ -83,23 +81,17 @@
                             <input type="hidden" name="IsActive" value="1" />
                         </div>
                         <div class="col-sm-8">
-                            @*<select class="form-control" name="TID" required>
-            <option>--Select Team--</option>
-            <option value="1">Capital Market Solutions</option>
-            <option value="2">Banking Solutions</option>
-            <option value="3">ERP</option>
-            <option value="4">EMAS</option>
-        </select>*@
-                            @if (tms!=null)
+
+                            @if (tms != null)
                             {
                                 @Html.DropDownList("TID", (IEnumerable<SelectListItem>)ViewBag.Teams, "--Select--", htmlAttributes: new { @class = "form-control", @required = "required" })
                             }
-                else
-                {
-                            <select class="form-control" required>
-                                <option disabled>No Item To Select</option>
-                            </select>
-                }
+                            else
+                            {
+                                <select class="form-control" required>
+                                    <option disabled>No Item To Select</option>
+                                </select>
+                            }
                         </div>
                     </div>
                 </div>
@@ -110,4 +102,18 @@
             </div>
         </div>
     </div>
+}
+
+@section scripts{
+    <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $(".mytbl").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+    </script>
+
 }

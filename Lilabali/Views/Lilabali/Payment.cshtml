@@ -4,5 +4,103 @@
     Layout = "~/Views/Shared/_MyLayout.cshtml";
 }
 
-<h2>Payment</h2>
+<div class="row">
+    <div class="col-sm-3"><b>Bill Distributor</b></div>
+    <div class="col-sm-3" style="text-align:center;"> <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#BillModal">Create New Bill</a></div>
+</div>
+<hr />
+@using (Html.BeginForm("CreateBill", "Lilabali", FormMethod.Post))
 
+{
+
+
+    <div class="modal fade" id="BillModal" tabindex="-1" aria-labelledby="TeamModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-light">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Bill</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Select Members</label>
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("SelectedMembers", (IEnumerable<SelectListItem>)ViewBag.EligibleMembers, new { @class = "form-control membrs", @required = "required", @multiple = "multiple" })
+                            <span style="color:darkslateblue">Press CTRL to select multiple Members.</span>
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Paid By:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="secondDropdown" class="form-control" name="Host" required>
+                                <option>--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Total Amount:</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" name="Amount" class="form-control" />
+                        </div>
+                    </div>
+
+
+
+                    <input type="hidden" name="IsActive" value="1" />
+
+
+
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                    <button type="submit" class="btn btn-sm btn-outline-dark">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+    $('.membrs').change(function () {
+        var selectedValues = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetMembers", "Lilabali")',
+            type: 'GET',
+            data: { selectedValues: selectedValues },
+            traditional: true,
+            success: function (data) {
+                var $secondDropdown = $('#secondDropdown');
+                $secondDropdown.empty();
+
+                if (data.length === 0) {
+                    $secondDropdown.append($('<option>', {
+                        value: '',
+                        text: '--Select--'
+                    }));
+                } else {
+                    $.each(data, function (index, item) {
+                        $secondDropdown.append($('<option>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            },
+            error: function () {
+                console.log('Error fetching data.');
+            }
+        });
+    });
+});
+    </script>
+    }
