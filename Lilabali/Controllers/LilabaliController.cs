@@ -91,7 +91,12 @@ namespace Lilabali.Controllers
                     dt.HostID = pvm.Host;
                     dt.MID = Convert.ToInt32(item);
                     dt.Amount = pvm.Amount / pvm.SelectedMembers.Count();
-                    dt.P_Status = 0;
+                    if (dt.MID == pvm.Host)
+                    {
+                        dt.P_Status = 1;
+                    }
+                    else { dt.P_Status = 0; }
+                        ;
                     lbc.datewisePayments.Add(dt);
                     lbc.SaveChanges();
                 }
