@@ -13,6 +13,7 @@ namespace Lilabali.Controllers
     {
         // GET: Lilabali
         public LilabaliDbContext lbc = new LilabaliDbContext();
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Home()
         {
             var member = lbc.Database.SqlQuery<MembersView>("SELECT * FROM MembersView").ToList();
@@ -45,6 +46,7 @@ namespace Lilabali.Controllers
             TempData["message"] = msg;
             return RedirectToAction("Home");
         }
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Teams()
         {
             var team = lbc.Teams.ToList();
@@ -70,12 +72,13 @@ namespace Lilabali.Controllers
             TempData["message"] = msg;
             return RedirectToAction("Teams");
         }
-
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Payment()
         {
             DropDownRepo ddr = new DropDownRepo();
+            var payment = lbc.Database.SqlQuery<PaymentDetails>("SELECT * FROM PaymentDetails").ToList();
             ViewBag.EligibleMembers = ddr.GetEligibleMembers();
-            return View();
+            return View(payment);
         }
         [HttpPost]
         public ActionResult CreateBill(PaymentVM pvm)
@@ -95,8 +98,7 @@ namespace Lilabali.Controllers
                     {
                         dt.P_Status = 1;
                     }
-                    else { dt.P_Status = 0; }
-                        ;
+                    else { dt.P_Status = 0; };
                     lbc.datewisePayments.Add(dt);
                     lbc.SaveChanges();
                 }

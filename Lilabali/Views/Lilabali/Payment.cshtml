@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Lilabali.ViewModels.PaymentDetails>
 @{
     ViewBag.Title = "Payment";
     Layout = "~/Views/Shared/_MyLayout.cshtml";
@@ -7,8 +7,55 @@
 <div class="row">
     <div class="col-sm-3"><b>Bill Distributor</b></div>
     <div class="col-sm-3" style="text-align:center;"> <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#BillModal">Create New Bill</a></div>
+    <div class="col-sm-6" style="text-align:right;">
+        <input type="text" class="form-control-sm" id="myInput" placeholder="Search Payment Details" />
+    </div>
 </div>
 <hr />
+<table class="table table-sm table-responsive-sm table-striped filter">
+    <thead>
+        <tr class="bg-dark text-light" style="text-align:center;">
+            <td><strong>Date</strong></td>
+            <td><strong>Consumer</strong></td>
+            <td><strong>Amount</strong></td>
+            <td><strong>Paid By</strong></td>
+            <td><strong>Status</strong></td>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="mytbl" style="text-align:center;">
+                    <td>@item.P_Date.ToShortDateString()</td>
+                    <td>@item.M_Name</td>
+                    <td>@item.Amount</td>
+                    <td>@item.Host</td>
+                    <td>@item.Payment_Status</td>
+                </tr>
+
+            }
+        </tbody>
+
+    }
+    else
+    {
+        <tbody>
+            <tr>
+                <td colspan="5" style="text-align:center">No Payment Found</td>
+            </tr>
+
+        </tbody>
+
+    }
+</table>
+
+
+
+
+
+
 @using (Html.BeginForm("CreateBill", "Lilabali", FormMethod.Post))
 
 {
@@ -71,6 +118,13 @@
 @section scripts{
     <script>
         $(document).ready(function () {
+
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".mytbl").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
     $('.membrs').change(function () {
         var selectedValues = $(this).val();
         $.ajax({
@@ -103,4 +157,4 @@
     });
 });
     </script>
-    }
+}
