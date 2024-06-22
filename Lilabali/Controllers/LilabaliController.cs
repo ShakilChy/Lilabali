@@ -3,6 +3,7 @@ using Lilabali.Repo;
 using Lilabali.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -111,7 +112,16 @@ namespace Lilabali.Controllers
             TempData["message"] = msg;
             return RedirectToAction("Payment");
         }
+        [HttpPost]
+        public ActionResult UpdatePayment( PaymentVM pvm)
+        {
 
+            var UserP = lbc.datewisePayments.Where(x => x.P_Date == pvm.P_Date && x.MID == pvm.MID).FirstOrDefault();
+            UserP.P_Status = 1;
+                    lbc.Entry(UserP).State = EntityState.Modified;
+                    lbc.SaveChanges();
+            return RedirectToAction("Payment");
+        }
         //This portion is used for Ajax Call to select HOST
         [HttpGet]
         public JsonResult GetMembers(string[] selectedValues)

@@ -19,6 +19,7 @@
             <td><strong>Name</strong></td>
             <td><strong>Team</strong></td>
             <td><strong>Status</strong></td>
+           
         </tr>
     </thead>
     @if (Model != null)
@@ -30,7 +31,9 @@
                     
                     <td>@Html.DisplayFor(modelItem => item.M_Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.TeamName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                    <td>@if (item.IsActive == 1)
+                    {<span>Active</span> }
+                    else {<span>Inctive</span> }</td>
                 </tr>
 
             }

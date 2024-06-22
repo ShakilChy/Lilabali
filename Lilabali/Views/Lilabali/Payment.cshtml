@@ -12,45 +12,62 @@
     </div>
 </div>
 <hr />
-<table class="table table-sm table-responsive-sm table-striped filter">
-    <thead>
-        <tr class="bg-dark text-light" style="text-align:center;">
-            <td><strong>Date</strong></td>
-            <td><strong>Consumer</strong></td>
-            <td><strong>Amount</strong></td>
-            <td><strong>Paid By</strong></td>
-            <td><strong>Status</strong></td>
-        </tr>
-    </thead>
-    @if (Model != null)
-    {
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="mytbl" style="text-align:center;">
-                    <td>@item.P_Date.ToShortDateString()</td>
-                    <td>@item.M_Name</td>
-                    <td>@item.Amount</td>
-                    <td>@item.Host</td>
-                    <td>@item.Payment_Status</td>
+
+    <table class="table table-sm table-responsive-sm table-striped filter">
+        <thead>
+            <tr class="bg-dark text-light" style="text-align:center;">
+                <td><strong>Date</strong></td>
+                <td><strong>Consumer</strong></td>
+                <td><strong>Amount</strong></td>
+                <td><strong>Paid By</strong></td>
+                <td><strong>Status</strong></td>
+                <td><strong>Action</strong></td>
+            </tr>
+        </thead>
+        @if (Model != null)
+        {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var a = item.Payment_Status.ToString();
+
+
+                    <tr class="mytbl" style="text-align:center;">
+                        <td>@item.P_Date.ToShortDateString()</td>
+                        <td>@item.M_Name</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Host</td>
+                        <td>@item.Payment_Status</td>
+                        <td>
+                            @*<input type="checkbox" name="SelectedItems" value="@item.MID"
+        @(a == "Paid" ? "disabled" : "") />*@
+                            @using (Html.BeginForm("UpdatePayment", "Lilabali", FormMethod.Post))
+
+                            {
+                                <input type="hidden" name="P_Date" value="@item.P_Date" />
+                            <button type="submit" name="MID" class="btn btn-sm btn-warning" value="@item.MID"@(a == "Paid" ? "disabled" : "")>Pay</button>
+
+                            }
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+
+        }
+        else
+        {
+            <tbody>
+                <tr>
+                    <td colspan="5" style="text-align:center">No Payment Found</td>
                 </tr>
 
-            }
-        </tbody>
+            </tbody>
 
-    }
-    else
-    {
-        <tbody>
-            <tr>
-                <td colspan="5" style="text-align:center">No Payment Found</td>
-            </tr>
-
-        </tbody>
-
-    }
-</table>
-
+        }
+    </table>
+   
 
 
 
