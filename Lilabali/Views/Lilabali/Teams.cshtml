@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_MyLayout.cshtml";
 }
 
+<!-- Toast Notification -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+    <div id="toastContainer" style="position: absolute; top: 0; right: 0;"></div>
+</div>
+
 <div class="row">
     <div class="col-sm-3"><b>Teams</b></div>
     <div class="col-sm-3" style="text-align:left;"> <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#TeamModal">Add Team</a></div>
@@ -96,14 +101,34 @@
 }
 @section scripts{
     <script>
-            $(document).ready(function () {
-                $("#myInput").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $(".mytbl").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".mytbl").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
+            // Toast Notification
+var message = '@TempData["message"]';
+var messageType = '@TempData["messageType"]';
+if (message) {
+    var toastHtml = `
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+            <div class="toast-header bg-${messageType === "success" ? "success" : "danger"} text-white">
+                <strong class="mr-auto">${messageType === "success" ? "Success" : "Error"}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+    `;
+    $('#toastContainer').html(toastHtml);
+    $('.toast').toast('show');
+}
+        });
     </script>
 
 }
