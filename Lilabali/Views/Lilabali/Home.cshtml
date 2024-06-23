@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_MyLayout.cshtml";
 }
 <!-- Toast Notification -->
-<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+@*<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
     <div id="toastContainer" style="position: absolute; top: 0; right: 0;"></div>
-</div>
+</div>*@
 
 
 <div class="row">
@@ -128,7 +128,7 @@
 
                 // Toast Notification
     var message = '@TempData["message"]';
-    var messageType = '@TempData["messageType"]';
+    //var messageType = '@*@TempData["messageType"]*@';
     if (message) {
         var toastHtml = `
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
