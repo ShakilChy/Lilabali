@@ -8,12 +8,12 @@
     <div class="col-sm-3"><b>Bill Distributor</b></div>
     <div class="col-sm-3" style="text-align:center;"> <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#BillModal">Create New Bill</a></div>
     <div class="col-sm-6" style="text-align:right;">
-        <input type="text" class="form-control-sm" id="myInput" placeholder="Search Payment Details" />
+        
     </div>
 </div>
 <hr />
 
-<table class="table table-sm table-responsive-sm table-striped filter">
+<table class="table table-sm table-responsive-sm table-striped filter" id="dataTable">
     <thead>
         <tr class="bg-dark text-light" style="text-align:center;">
             <td><strong>Date</strong></td>
@@ -135,6 +135,7 @@
 @section scripts{
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
+    <script src="~/Scripts/dataTable.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -174,7 +175,45 @@
             }
         });
     });
+            //datatable
+            $('#dataTable').DataTable(
+                {
+                    dom: "<'row'<'col-md-4'l><'col-md-4'B><'col-md-4 searchStyle'f>>" + "<'row'<'col-md-12'tr><'col-md-6'i><'col-md-6'p>>",
+                    buttons: [
+                        {
+                            "extend": 'pdf', "text": '<i class="far fa-file-pdf" style="font-size: 25px; color: red"></i>', "className": 'btn-sm btn-default', "titleAttr": 'PDF',
 
+                            exportOptions: {
+                                columns: "thead th:not(.noExport)"
+                            }
+                        },
+                        {
+                            "extend": 'excelHtml5', "text": ' <i class="far fa-file-excel" style="font-size: 25px; color: green"></i> ', "className": ' btn-sm btn-default', "titleAttr": 'Excel',
+                            exportOptions: {
+                                columns: "thead th:not(.noExport)"
+                            }
+                        },
+                        {
+                            "extend": 'csvHtml5', "text": '<i class="fa fa-file-csv" style="font-size: 25px; color: #72BF44"></i> ', "className": ' btn-sm btn-default', "titleAttr": 'CSV',
+                            exportOptions: {
+                                columns: "thead th:not(.noExport)"
+                            }
+                        },
+                        {
+                            "extend": 'copyHtml5', "text": '<i class="far fa-copy" style="font-size: 25px; color: grey"></i> ', "className": ' btn-sm btn-default', "titleAttr": 'Copy',
+                            exportOptions: {
+                                columns: "thead th:not(.noExport)"
+                            }
+                        }
+                    ],
+                    language: {
+                        "info": "Showing _START_ to _END_ of _TOTAL_ Record(s)",
+                        "emptyTable": "No data available",
+                        "infoEmpty": "Showing 0 to 0 of 0 Record(s)",
+                        "lengthMenu": "Show _MENU_ Record(s)"
+                    }
+                }
+            );
                 // Toastr Notification
             var message = '@TempData["message"]';
             var messageType = '@TempData["messageType"]';
