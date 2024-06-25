@@ -136,6 +136,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\datewisePayment.cs" />
+    <Compile Include="ViewModels\BillReportView.cs" />
     <Compile Include="ViewModels\EligibleMembers.cs" />
     <Compile Include="ViewModels\MembersView.cs" />
     <Compile Include="Models\LilabaliDbContext.cs" />
